@@ -10,7 +10,7 @@ const Users = () => {
     return(
         <>
         <h1>USERS</h1>
-        <div className='border-2 border-pink-700'>
+        <div>
          <UsersList users={users} />
         </div>
         </>

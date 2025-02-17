@@ -5,7 +5,7 @@ import './userList.css';
 
 const UsersList = (props) => {
 
-    console.log('props' , props.users);
+    // console.log('props' , props.users);
     if (props.users.length === 0){
         return <h2>Users not found</h2>
     }
