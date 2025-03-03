@@ -4,8 +4,8 @@ import UserPlaces from "./routes/places/places.route";
 import NewPlace from "./routes/places/newPlace.route";
 import MainNavigation from "./components/MainNavigation/mainNavigation.component";
 import Auth from "./routes/auth/auth.component";
-import PlaceList from "./components/places/placeList.component";
-import Reducer from "./components/Reducer/reducer";
+// import PlaceList from "./components/places/placeList.component";
+// import Reducer from "./components/Reducer/reducer";
 
 function App() {
   return (
@@ -20,7 +20,6 @@ function App() {
         <Route path="*" element={<Users />} />
       </Routes>
       </main>
-      <Reducer />
     </div>
   );
 }

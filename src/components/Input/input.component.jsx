@@ -1,15 +1,19 @@
 import "./input.css";
-import { useReducer } from "react";
+import { validate } from "../../utils/validators";
+import { useReducer , useEffect } from "react";
 
 const handleReducer = (state, action) => {
   switch (action.type) {
     case "change":
       return {
         ...state,
-        [action.name]: {
-          value: action.value,
-          isValid: true,
-        }    
+        value: action.value,
+        isValid: validate(action.value , action.validators),   
+      };
+    case "touch":
+      return {
+        ...state,
+        isTouched:true,
       };
     default:
       return state;
@@ -17,37 +21,62 @@ const handleReducer = (state, action) => {
 };
 
 const Input = (props) => {
-  const [inputState, dispatch] = useReducer(handleReducer, {
 
+  const [inputState, dispatch] = useReducer(handleReducer, {
+    value:'',
+    isTouched:false,
+    isValid:false
   });
-  console.log(" inputState use Reducer :", inputState);
+  // console.log(" inputState use Reducer :", inputState);
+
+
+  //destrcting the values from  the state and the props.
+  const { value , isValid } = inputState;
+  const { id , onInput } = props;
+
+
+  //using destructured values in the useEffect dependencies so that useEffects runs only when these values change rather than the whole state and the props.
+  useEffect(() => {
+    
+    onInput(id , value , isValid);
+
+  } , [id , value , isValid , onInput]);
+
 
   const handleChange = (e) => {
-    dispatch({ type: "change", value: e.target.value, name:e.target.name });
+    dispatch({ type: "change", value: e.target.value , validators:props.validators });
   };
+
+
+  const touchHandler = () => {
+    dispatch({ type: "touch" });
+  }
 
   return (
     <>
-      <div className="form-control">
+      <div className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid' }`}>
         <label htmlFor={props.id}>{props.label}</label>
-        {props.element == "input" ? (
+        
+        {props.element === "input" ? (
           <>
             <input
               id={props.id}
               type={props.type}
               placeholder={props.placeholder}
-              value={inputState[props.name]?.value}
+              value={inputState.value}
               onChange={handleChange}
+              onBlur={touchHandler}
               name={props.name}
-              className={
-                inputState.isValid
-                  ? ""
-                  : "!border-2 !border-red-400"
-              }
+              // className={
+              //   inputState.isValid
+              //     ? ""
+              //     : "!border-2 !border-red-400"
+              // }
             />
             <br />
-            {!inputState.isValid && (
-              <p className="text-red-500 text-sm m-0 p-0">{props.errorMessage}</p>
+            {/* <p>{props.errorMessage}</p> */}
+            {!inputState.isValid && inputState.isTouched && (
+              <p className="text-red-400 text-sm">{props.errorMessage}</p>
             )}
           </>
         ) : (
@@ -55,6 +84,10 @@ const Input = (props) => {
             id={props.id}
             rows={props.rows || 3}
             cols={props.cols || 20}
+            onChange={handleChange}
+            onBlur={touchHandler}
+            value={inputState.value}
+            name={props.name}
           />
         )}
         {/* <button onClick={() => { dispatch()}}>click me to increment</button> */}
