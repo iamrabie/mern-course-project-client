@@ -23,9 +23,9 @@ const handleReducer = (state, action) => {
 const Input = (props) => {
 
   const [inputState, dispatch] = useReducer(handleReducer, {
-    value:'',
+    value: props.value || '',
     isTouched:false,
-    isValid:false
+    isValid:props.valid || false
   });
   // console.log(" inputState use Reducer :", inputState);
 
@@ -73,13 +73,15 @@ const Input = (props) => {
               //     : "!border-2 !border-red-400"
               // }
             />
-            <br />
+            {/* <br /> */}
             {/* <p>{props.errorMessage}</p> */}
             {!inputState.isValid && inputState.isTouched && (
               <p className="text-red-400 text-sm">{props.errorMessage}</p>
             )}
           </>
         ) : (
+          <>
+
           <textarea
             id={props.id}
             rows={props.rows || 3}
@@ -89,6 +91,10 @@ const Input = (props) => {
             value={inputState.value}
             name={props.name}
           />
+          {!inputState.isValid && inputState.isTouched && (
+            <p className="text-red-400 text-sm">{props.errorMessage}</p>
+          )}
+          </>
         )}
         {/* <button onClick={() => { dispatch()}}>click me to increment</button> */}
       </div>

@@ -4,7 +4,7 @@ import PlaceList from "../../components/places/placeList.component";
 const UserPlaces = () => {
 
     const {userId} = useParams();
-    console.log('user id from params :' , userId);
+    // console.log('user id from params :' , userId);
 
     const DUMMY_PLACES = [
         {

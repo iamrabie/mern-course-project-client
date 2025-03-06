@@ -3,6 +3,7 @@ import Users from "./routes/users/users.route";
 import UserPlaces from "./routes/places/places.route";
 import NewPlace from "./routes/places/newPlace.route";
 import MainNavigation from "./components/MainNavigation/mainNavigation.component";
+import UpdatePlace from "./routes/places/updatePlace.route";
 import Auth from "./routes/auth/auth.component";
 // import PlaceList from "./components/places/placeList.component";
 // import Reducer from "./components/Reducer/reducer";
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Users />} />
         <Route path="place/new" element={<NewPlace />} />
         <Route path="places/:userId" element={<UserPlaces />} />
+        <Route path="/:placeId/updatePlace"  element={<UpdatePlace />} />
         <Route path="auth" element={<Auth />} />
         <Route path="*" element={<Users />} />
       </Routes>

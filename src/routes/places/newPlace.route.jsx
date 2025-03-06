@@ -1,37 +1,8 @@
 import Input from "../../components/Input/input.component";
 import Button from "../../components/Button/button.component";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../utils/validators";
-import { useCallback , useReducer} from "react";
+import { useForm } from "../../hooks/form-hook";
 import "./newPlace.css";
-
-
-
-//writing reducer function
-const handleReducer = (state , action) => {
-
-  switch (action.type) {
-    case 'INPUT_CHANGE':
-      let formIsValid = true;
-      for (var input in state.inputs){
-        if (input === action.inputId){
-          formIsValid = formIsValid && action.isValid;
-        }
-        else{
-          formIsValid = formIsValid && state.inputs[input].isValid;
-        }
-      }
-      return {
-        //  ...state, ??
-         inputs:{
-          ...state.inputs,
-          [action.inputId]: {value:action.value , isValid:action.isValid}
-         },
-         isValid:formIsValid
-      };
-    default:
-      return state;
-  }
-}
 
 
 const NewPlace = () => {
@@ -39,43 +10,36 @@ const NewPlace = () => {
 
     //writing useReducer for overall form validity
     //to handle multiple conditions i.e. complex conditions
-    const [formState , dispatch] = useReducer(handleReducer , {
-      inputs:{
-        title:{
-          value:'',
-          isValid:false
-        },
-        description:{
-          value:'',
-          isValid:false
-        }  
-      },
-      isValid:false
-    });
+    const [formState , titleInputHandler] = useForm(
+      {
+            title:{
+              value:'',
+              isValid:false
+            },
+            description:{
+              value:'',
+              isValid:false
+            },
+            address:{
+              value:'',
+              isValid:false
+            } 
+      } , false);
+    
 
-    console.log('FORM STATE ::' , formState);
+    // console.log('FORM STATE ::' , formState);
 
-    //using callback hook so that this func does not creates on every render
-    const titleInputHandler = useCallback((id , value , isValid) => {
+    
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      // console.log('form inputs , '  , formState.inputs);
+    }
 
-        // console.log('id value and isValid from input' , id , value , isValid);
-        dispatch({type:'INPUT_CHANGE' , value:value ,  isValid:isValid , inputId:id});
-
-    } , []);
-
-
-
-    const titleDescriptionHandler = useCallback((id , value , isValid) => {
-
-        dispatch({type:'INPUT_CHANGE' , value:value , isValid:isValid , inputId:id});
-        // console.log('id value and isValid from DES' , id , value , isValid);
-        
-    } , []);
 
 
   return (
     <>
-      <form className="place-form">
+      <form className="place-form" onSubmit={handleSubmit}>
         <Input
           element="input"
           id="title"
@@ -90,13 +54,25 @@ const NewPlace = () => {
           element="description"
           id="description"
           label="Description"
-          name="title"
-          type="text"
+          name="description"
+          // type="textarea"
           validators={[VALIDATOR_REQUIRE() , VALIDATOR_MINLENGTH(5)]}
           errorMessage="Please enter a valid description (atleast 5 characters)."
-          onInput={titleDescriptionHandler}
+          onInput={titleInputHandler}
+        />
+        <Input
+          element="input"
+          id="address"
+          label="address"
+          name="address"
+          type="text"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorMessage="Please enter the address."
+          onInput={titleInputHandler}
         />
         <Button type="submit" disabled={!formState.isValid}>ADD PLACE</Button>
+     
+
       </form>
     </>
   );
