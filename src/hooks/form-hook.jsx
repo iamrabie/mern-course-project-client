@@ -7,6 +7,9 @@ const handleReducer = (state , action) => {
       case 'INPUT_CHANGE':
         let formIsValid = true;
         for (var input in state.inputs){
+          if (!state.inputs[input]){
+            continue;
+          }
           if (input === action.inputId){
             formIsValid = formIsValid && action.isValid;
           }
@@ -22,6 +25,11 @@ const handleReducer = (state , action) => {
            },
            isValid:formIsValid
         };
+      case 'SET_DATA':
+        return {
+          inputs:action.inputs,
+          isValid:action.isValid
+        };
       default:
         return state;
     }
@@ -35,6 +43,8 @@ export const useForm = (initialInputs , initialFormValidity) => {
        inputs:initialInputs,
        isValid:initialFormValidity
      });
+     
+    // console.log('useform :' , formState);
 
     //using callback hook so that this func does not creates on every render
     const titleInputHandler = useCallback((id , value , isValid) => {
@@ -45,7 +55,14 @@ export const useForm = (initialInputs , initialFormValidity) => {
     } , []);
 
 
-    return [formState , titleInputHandler];
+    const handleFormData = useCallback((inputData , formValidity) => {
+
+      dispatch({type:'SET_DATA' , inputs:inputData , isValid:formValidity});
+
+    } , []);
+
+
+    return [formState , titleInputHandler , handleFormData];
 
 }
 

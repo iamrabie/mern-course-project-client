@@ -1,22 +1,36 @@
 import Card from "../Card/card.component";
 import Button from "../Button/button.component";
 import Modal from '../Modal/modal.component';
-import {useState} from 'react';
-import ReactDOM from "react-dom";
+import { AuthContext } from "../../context/context";
+import { useState , useContext } from 'react';
 import "./placeItem.css";
 
 const PlaceItem = (props) => {
 
+
+  const [showDeleteModal , setShowDeleteModal] = useState(false);
+  // console.log('delete Modal :' , showDeleteModal);
+
   const [showMap , setShowMap] = useState(false);
 
-  const handleShowMap = () => {
+  const {login} = useContext(AuthContext);
 
-    setShowMap(true);
+  const handleShowMap = () => { setShowMap(true); }
+
+  const handleCancelMap = () => { setShowMap(false);}
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
   }
 
-  const handleCancelMap = () => {
 
-    setShowMap(false);
+  const handleConfirmDelete = () => {
+    setShowDeleteModal(false);
+    console.log('place deleted !');
+  }
+
+  const handleShowDeleteModal = () => {
+    setShowDeleteModal(true);
   }
 
   return (
@@ -33,6 +47,23 @@ const PlaceItem = (props) => {
          <h2>THE MAP!</h2>
       </div>
     </Modal>
+
+    <Modal 
+       show={showDeleteModal} 
+       onCancel={handleCancelDelete}
+       header="Delete Place?"
+      //  contentClass="place-item_modal-content"
+       footerClass="place-item_modal-actions"
+       footer={
+        <>
+        <Button inverse onClick={handleCancelDelete}>CANCEL</Button>
+        <Button danger onClick={handleConfirmDelete}>DELETE</Button>
+       </>}
+    >
+      <p>Are you sure you want to delete?</p>
+      <p>NOTE : This action can not be reversed.</p>
+    </Modal>
+
       <li className="place-item" style={{listStyleType:'none'}}>
         <Card className="place-item__content">
           <div className="place-item__image">
@@ -45,8 +76,10 @@ const PlaceItem = (props) => {
           </div>
           <div className="place-item__actions">
             <Button inverse onClick={handleShowMap}>VIEW ON MAP</Button>
-            <Button to={`/${props.id}/updatePlace`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            {login && <>
+              <Button to={`/updatePlace/${props.id}`}>EDIT</Button>
+              <Button danger onClick={handleShowDeleteModal}>DELETE</Button>
+            </>}
           </div>
         </Card>
       </li>

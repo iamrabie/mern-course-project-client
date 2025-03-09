@@ -21,7 +21,7 @@ const UserPlaces = () => {
         },
         {
             id:'p2',
-            title:'Empire State Building',
+            title:'United Arab Emirates',
             description:'One of the famous sky scrappers in the world ..!',
             imageUrl:'https://thechatwalny.agencydominion.net/uploads/2024/06/Empire-State-Building-1200x630.jpg',
             address:'24 W 34th St, New York , NY 10001',
@@ -32,8 +32,8 @@ const UserPlaces = () => {
             creator:'u2'
         },
         {
-            id:'p2',
-            title:'Empire State Building',
+            id:'p3',
+            title:'United Kingdom',
             description:'One of the famous sky scrappers in the world ..!',
             imageUrl:'https://thechatwalny.agencydominion.net/uploads/2024/06/Empire-State-Building-1200x630.jpg',
             address:'24 W 34th St, New York , NY 10001',
@@ -51,7 +51,6 @@ const UserPlaces = () => {
 
     return(
         <>
-        <h1>Places</h1>
         <div style={{width:"50%" , marginLeft:'auto' , marginRight:'auto'}}>
         <PlaceList items={filteredPlaces} />
         </div>

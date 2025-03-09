@@ -1,27 +1,15 @@
 import {useParams} from 'react-router-dom';
 import Input from '../../components/Input/input.component';
 import Button from '../../components/Button/button.component';
+import Card from '../../components/Card/card.component';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../utils/validators';
 import { useForm } from '../../hooks/form-hook';
+import { useEffect , useState } from 'react';
 import "./newPlace.css";
 
 const UpdatePlace = () => {
 
     const { placeId } = useParams();
-
-    const [formState , titleInputHandler] = useForm({
-        title: {
-            value: '',
-            isValid: false
-          },
-          description: {
-            value: '',
-            isValid: false
-          }
-    } , false);
-
-    // console.log('update place useForm hook :' , formState);
-    
 
     const DUMMY_PLACES = [
         {
@@ -38,7 +26,7 @@ const UpdatePlace = () => {
         },
         {
             id:'p2',
-            title:'Empire State Buildingsss',
+            title:'United Arab Emirates',
             description:'One of the famous sky scrappers in the world ..!',
             imageUrl:'https://thechatwalny.agencydominion.net/uploads/2024/06/Empire-State-Building-1200x630.jpg',
             address:'24 W 34th St, New York , NY 10001',
@@ -49,8 +37,8 @@ const UpdatePlace = () => {
             creator:'u2'
         },
         {
-            id:'p2',
-            title:'Empire State Building',
+            id:'p3',
+            title:'United Kingdom',
             description:'One of the famous sky scrappers in the world ..!',
             imageUrl:'https://thechatwalny.agencydominion.net/uploads/2024/06/Empire-State-Building-1200x630.jpg',
             address:'24 W 34th St, New York , NY 10001',
@@ -63,21 +51,76 @@ const UpdatePlace = () => {
 
     ];
 
+    const [ isLoading , setIsLoading ] = useState(true);
+
+
+    const [formState , titleInputHandler , handleFormData] = useForm({
+        title: {
+          value: '',
+          isValid: false
+        },
+        description: {
+          value: '',
+          isValid: false
+        }
+     } , false);
+
+    // console.log('update place useForm hook :' , formState);
+
 
     //find gives the first thing that matches.
     const identifiedPlace = DUMMY_PLACES.find( i => i.id === placeId);
 
+
+    useEffect(() => {
+
+        if (identifiedPlace){
+            handleFormData({
+                title: {
+                    value: identifiedPlace.title,
+                    isValid: true
+                  },
+                  description: {
+                    value: identifiedPlace.description,
+                    isValid: true
+                  }
+            } , true);
+        }
+ 
+
+        setIsLoading(false);
+
+    } , []);
+
+
     
     if (!identifiedPlace){
-        return <div className='center bg-white w-1/2 py-3 px-5 rounded-lg mx-auto'>
-        <p>no place exists</p>
+        return <div className='center'>
+            <Card>
+             <p>Could not found place!</p>
+            </Card>
         </div>
+    }
+
+    if (isLoading){
+        return <div>
+            <Card>
+              <p>LOADING ...</p>
+            </Card>
+        </div>
+    }
+
+
+    const handleUpdatePlace = (e) => {
+
+        e.preventDefault();
+        console.log(formState);
     }
 
 
     return(
         <>
-         <form className='place-form'>
+         <form className='place-form' onSubmit={handleUpdatePlace}>
             <Input   
                 element="input"
                 id="title"
@@ -87,8 +130,8 @@ const UpdatePlace = () => {
                 validators={[VALIDATOR_REQUIRE()]}
                 errorMessage="you entered an invalid title."
                 onInput={titleInputHandler}
-                value={identifiedPlace.title}
-                valid={true}
+                value={formState.inputs.title.value}
+                valid={formState.inputs.title.isValid}
             />
             <Input   
                 element="textarea"
@@ -99,8 +142,8 @@ const UpdatePlace = () => {
                 validators={[VALIDATOR_REQUIRE() , VALIDATOR_MINLENGTH(5)]}
                 errorMessage="Please enter a valid description (atleast 5 characters)."
                 onInput={titleInputHandler}
-                value={identifiedPlace.description}
-                valid={true}
+                value={formState.inputs.description.value}
+                valid={formState.inputs.description.isValid}
             />
           
             <Button disabled={!formState.isValid}>UPDATE PLACE</Button>
