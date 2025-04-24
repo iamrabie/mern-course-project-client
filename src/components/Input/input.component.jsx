@@ -55,7 +55,7 @@ const Input = (props) => {
   return (
     <>
       <div className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid' }`}>
-        <label htmlFor={props.id}>{props.label}</label>
+        <label htmlFor={props.id}>{props.label}<span className="text-red-500">*</span></label>
         
         {props.element === "input" ? (
           <>

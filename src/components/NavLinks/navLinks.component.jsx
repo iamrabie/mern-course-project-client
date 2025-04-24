@@ -2,12 +2,15 @@ import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 
 import { AuthContext } from "../../context/context";
+import { UserContext } from "../../context/user-context";
 import './navLinks.css';
 
 const NavLinks = () => {
 
     const {login , setLogin} = useContext(AuthContext);
     // console.log('isLogeed' , login);
+
+    const {user} = useContext(UserContext);
 
     return(
         <>
@@ -17,7 +20,7 @@ const NavLinks = () => {
           </li>
           {login && 
           <li>
-            <NavLink to="places/u1">MY PLACES</NavLink>
+            <NavLink to={`places/${user}`}>MY PLACES</NavLink>
           </li>
           }
           {login &&

@@ -1,4 +1,5 @@
 import { Routes , Route } from "react-router-dom";
+import { useState } from "react";
 import Users from "./routes/users/users.route";
 import UserPlaces from "./routes/places/places.route";
 import NewPlace from "./routes/places/newPlace.route";
@@ -7,6 +8,8 @@ import UpdatePlace from "./routes/places/updatePlace.route";
 import Auth from "./routes/auth/auth.component";
 import { useContext } from "react";
 import { AuthContext } from "./context/context";
+
+
 // import PlaceList from "./components/places/placeList.component";
 // import Reducer from "./components/Reducer/reducer";
 
@@ -14,6 +17,8 @@ function App() {
 
   const { login } = useContext(AuthContext);
 
+  const [userImage , setUserImage] = useState(null);
+  
   let routes;
 
   if (login) {
