@@ -14,7 +14,8 @@ import "./newPlace.css";
 const NewPlace = () => {
 
 
-    const { user } = useContext(UserContext);
+    const { user , token } = useContext(UserContext);
+    console.log('TOKEN FROM CREATE PLACE'  , token);
     //writing useReducer for overall form validity
 
     const [isLoading , setIsLoading] = useState(false);
@@ -70,9 +71,10 @@ const NewPlace = () => {
 
       fetch("http://localhost:5000/api/places/create-place" , {
         method:"POST",
-        // headers:{
-        //   'Content-Type':'application/json'
-        // },
+        headers:{
+          // 'Content-Type':'application/json',
+          'Authorization':`Bearer ${token}`
+        },
         body:formData
       }).
       then(res => res.json()).

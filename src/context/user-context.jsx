@@ -11,6 +11,7 @@ export const UserProvider = ({children}) => {
 
     const [user , setUser] = useState(null);
     const [token , setToken] = useState(null);
+    console.log('token from user context ::::' , token);
     const value={user, setUser , token , setToken};
 
     // console.log('user context :' , user);

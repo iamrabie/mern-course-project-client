@@ -1,5 +1,5 @@
 import { Outlet, useParams , useNavigate} from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useContext } from "react";
 
 import PlaceList from "../../components/places/placeList.component";
 import LoadingSpinner from "../../components/LoadingSpinner/loadingSpinner";
@@ -8,11 +8,9 @@ import ErrorModal from "../../components/ErrorModal/errorModal.component";
 const UserPlaces = () => {
 
   const { userId } = useParams();
-  // console.log('user id from params :' , userId);
   const [places, setPlaces] = useState([]);
   const [isLoading , setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  // console.log('errrrr:::::::::::' , error);
   const navigate = useNavigate();
 
   useEffect(() => {

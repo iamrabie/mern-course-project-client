@@ -20,7 +20,7 @@ import "./auth-form.css";
 const Auth = () => {
   const { login, setLogin } = useContext(AuthContext);
   // console.log('login from auth context' , login);
-  const { user , setUser } = useContext(UserContext);
+  const { user , setUser , setToken } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -87,7 +87,8 @@ const Auth = () => {
           return res.json();
         })
         .then((data) => {
-          // console.log("DATA on login :", data);
+          console.log("DATA on login :", data);
+          setToken(data.token);
           if (data.success) {
             setIsLoading(true);
             setUser(data.data._id);
@@ -134,7 +135,8 @@ const Auth = () => {
           return res.json();
         })
         .then((data) => {
-          // console.log("data SIGN UP :", data);
+          console.log("data SIGN UP :", data);
+          setToken(data.token);
           if (data.success) {
             setUserSignup(data);
             setIsLoading(true);

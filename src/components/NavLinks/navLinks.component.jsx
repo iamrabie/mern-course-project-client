@@ -10,7 +10,7 @@ const NavLinks = () => {
     const {login , setLogin} = useContext(AuthContext);
     // console.log('isLogeed' , login);
 
-    const {user} = useContext(UserContext);
+    const {user , setToken} = useContext(UserContext);
 
     return(
         <>
@@ -30,7 +30,7 @@ const NavLinks = () => {
           }
           {login &&
           <li>
-            <NavLink to="auth" onClick={() => setLogin(false)}>LOGOUT</NavLink>
+            <NavLink to="auth" onClick={() => {setLogin(false); setToken(null)}}>LOGOUT</NavLink>
           </li>
           }
           {!login &&

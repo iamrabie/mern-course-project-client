@@ -23,10 +23,10 @@ const PlaceItem = (props) => {
 
   const {login} = useContext(AuthContext);
 
-  const {user} = useContext(UserContext);
+  const {user , token} = useContext(UserContext);
 
   const [deleteSuccess , setDeleteSuccess] = useState(false);
-  console.log('delete success' , deleteSuccess);
+  // console.log('delete success' , deleteSuccess);
 
 
   const navigate = useNavigate();
@@ -42,13 +42,14 @@ const PlaceItem = (props) => {
 
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
-    console.log('place deleted !');
+    // console.log('place deleted !');
 
 
     fetch(`http://localhost:5000/api/places/delete-place/${props.id}` , {
       method:"DELETE",
       headers:{
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        'Authorization':`Bearer ${token}`
       }
     }).
     then(res => res.json()).
@@ -57,7 +58,7 @@ const PlaceItem = (props) => {
       setIsLoading(true);
 
       if (data?.success){
-        console.log('A');
+        // console.log('A');
         setDeleteSuccess(data?.success);
         setTimeout(() => {
           navigate(`/places/${user}`);

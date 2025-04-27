@@ -17,7 +17,7 @@ const UpdatePlace = () => {
   const [updateSuccess, setUpdateSuccess] = useState({});
   // console.log('update success' , updateSuccess);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user , token} = useContext(UserContext);
   const [place, setPlace] = useState();
   // console.log("place info :" , place);
 
@@ -72,6 +72,7 @@ const UpdatePlace = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        'Authorization':`Bearer ${token}`
       },
       body: JSON.stringify({
         title: formState.inputs.title.value,

@@ -5,7 +5,7 @@ import "./imageUpload.css";
 
 const ImageUpload = (props) => {
   const [file, setFile] = useState(null);
-  console.log("picked file :", file);
+  // console.log("picked file :", file);
   const [isValid, setIsValid] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
   // console.log('previewed url' , previewUrl);
@@ -15,7 +15,7 @@ const ImageUpload = (props) => {
   useEffect(() => {
 
     if (!file) {
-       console.log('no file chosen');
+      //  console.log('no file chosen');
       return;
     }
 
