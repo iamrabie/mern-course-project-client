@@ -1,5 +1,5 @@
 import { Routes , Route } from "react-router-dom";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import Users from "./routes/users/users.route";
 import UserPlaces from "./routes/places/places.route";
 import NewPlace from "./routes/places/newPlace.route";
@@ -8,6 +8,7 @@ import UpdatePlace from "./routes/places/updatePlace.route";
 import Auth from "./routes/auth/auth.component";
 import { useContext } from "react";
 import { AuthContext } from "./context/context";
+import { UserContext } from "./context/user-context";
 
 
 // import PlaceList from "./components/places/placeList.component";
@@ -17,11 +18,14 @@ function App() {
 
   const { login } = useContext(AuthContext);
 
+  const { token } = useContext(UserContext);
+
   const [userImage , setUserImage] = useState(null);
+
   
   let routes;
 
-  if (login) {
+  if (login && token) {
      routes = (
       <>
       <Routes>

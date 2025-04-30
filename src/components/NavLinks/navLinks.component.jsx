@@ -30,7 +30,7 @@ const NavLinks = () => {
           }
           {login &&
           <li>
-            <NavLink to="auth" onClick={() => {setLogin(false); setToken(null)}}>LOGOUT</NavLink>
+            <NavLink to="auth" onClick={() => {setLogin(false); setToken(null); localStorage.removeItem('token'); localStorage.removeItem('login');}}>LOGOUT</NavLink>
           </li>
           }
           {!login &&

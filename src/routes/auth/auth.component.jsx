@@ -89,6 +89,7 @@ const Auth = () => {
         .then((data) => {
           console.log("DATA on login :", data);
           setToken(data.token);
+          localStorage.setItem('token' , JSON.stringify({token:data.token}));
           if (data.success) {
             setIsLoading(true);
             setUser(data.data._id);
@@ -97,6 +98,7 @@ const Auth = () => {
             // } , 2500)
           }
           setLogin(data?.success);
+          localStorage.setItem('login' , data?.success);
         })
         .catch((err) => {
           setError(err.message || "Something went wrong , please try again.");

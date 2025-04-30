@@ -1,4 +1,4 @@
-import { createContext , useState } from "react";
+import { createContext , useState , useEffect } from "react";
 
 export const UserContext = createContext({
     user:null,
@@ -14,6 +14,15 @@ export const UserProvider = ({children}) => {
     console.log('token from user context ::::' , token);
     const value={user, setUser , token , setToken};
 
+        
+    useEffect(() => {
+        const storedToken = JSON.parse(localStorage.getItem("token"));
+
+        if (storedToken){
+         setToken(storedToken.token);
+        }
+
+    } , []);
     // console.log('user context :' , user);
     // console.log('value' , value);
 
