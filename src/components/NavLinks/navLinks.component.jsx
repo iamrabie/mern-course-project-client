@@ -12,6 +12,14 @@ const NavLinks = () => {
 
     const {user , setToken} = useContext(UserContext);
 
+    const handleLogout = () => {
+      setLogin(false); 
+      setToken(null);
+      localStorage.removeItem('token'); 
+      localStorage.removeItem('login'); 
+      localStorage.removeItem('username');
+    }
+
     return(
         <>
         <ul className="nav-links">
@@ -30,7 +38,7 @@ const NavLinks = () => {
           }
           {login &&
           <li>
-            <NavLink to="auth" onClick={() => {setLogin(false); setToken(null); localStorage.removeItem('token'); localStorage.removeItem('login');}}>LOGOUT</NavLink>
+            <NavLink to="auth" onClick={handleLogout}>LOGOUT</NavLink>
           </li>
           }
           {!login &&

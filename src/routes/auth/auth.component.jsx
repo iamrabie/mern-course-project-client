@@ -3,7 +3,7 @@ import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
 } from "../../utils/validators";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Input from "../../components/Input/input.component";
@@ -17,7 +17,7 @@ import { useForm } from "../../hooks/form-hook";
 import "./auth-form.css";
 
 
-const Auth = () => {
+const Auth = () => {  
   const { login, setLogin } = useContext(AuthContext);
   // console.log('login from auth context' , login);
   const { user , setUser , setToken } = useContext(UserContext);
@@ -64,7 +64,7 @@ const Auth = () => {
       //  console.log('form state :'  , formState);
 
     if (isLoggedIn) {
-      fetch("http://localhost:5000/api/users/login", {
+      fetch(`${process.env.REACT_APP_BACKEND}/users/login`, {
         // mode:'no-cors',
         method: "POST",
         headers: {
@@ -89,7 +89,8 @@ const Auth = () => {
         .then((data) => {
           console.log("DATA on login :", data);
           setToken(data.token);
-          localStorage.setItem('token' , JSON.stringify({token:data.token}));
+          const tokenExpirationDate = new Date( new Date().getTime() + 1000 * 60 * 60 );
+          localStorage.setItem('token' , JSON.stringify({expiryDate:tokenExpirationDate.toISOString(), token:data.token}));
           if (data.success) {
             setIsLoading(true);
             setUser(data.data._id);
@@ -119,7 +120,7 @@ const Auth = () => {
       // }
       
       
-      fetch("http://localhost:5000/api/users/sign-up", {
+      fetch(`${process.env.REACT_APP_BACKEND}/users/sign-up`, {
         // mode:'no-cors',
         method: "POST",
         // headers: { 'Content-Type': 'multipart/form-data' }
@@ -153,6 +154,17 @@ const Auth = () => {
         });
     }
   };
+
+
+  useEffect(() => {
+    const storedTokenInfo = JSON.parse(localStorage.getItem('token'));
+    // console.log('stored token info AUTH' , storedTokenInfo);
+
+    // if (storedTokenInfo && storedTokenInfo.token && new Date(storedTokenInfo.expiryDate) > new Date()) {
+
+    // }
+    
+} , []);
 
   const handleSwitchMode = (e) => {
     e.preventDefault();

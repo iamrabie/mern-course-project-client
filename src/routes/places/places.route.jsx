@@ -19,7 +19,7 @@ const UserPlaces = () => {
 
 
   const getPlacesByUserId = () => {
-    fetch(`http://localhost:5000/api/places/user/${userId}`)
+    fetch(`${process.env.REACT_APP_BACKEND}/places/user/${userId}`)
     .then((res) => res.json())
     .then((data) => {
       setPlaces(data.data);

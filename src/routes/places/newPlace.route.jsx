@@ -69,7 +69,7 @@ const NewPlace = () => {
       //   creator:user
       // })
 
-      fetch("http://localhost:5000/api/places/create-place" , {
+      fetch(`${process.env.REACT_APP_BACKEND}/places/create-place`, {
         method:"POST",
         headers:{
           // 'Content-Type':'application/json',

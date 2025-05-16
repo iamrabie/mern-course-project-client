@@ -40,7 +40,7 @@ const UpdatePlace = () => {
   
   //fetching places by place id
   useEffect(() => {
-    fetch(`http://localhost:5000/api/places/${placeId}`)
+    fetch(`${process.env.BACKEND}/places/${placeId}`)
       .then((res) => res.json())
       .then((data) => {
         setPlace(data.data);
@@ -68,7 +68,7 @@ const UpdatePlace = () => {
     e.preventDefault();
     // console.log(formState);
 
-    fetch(`http://localhost:5000/api/places/update-place/${placeId}`, {
+    fetch(`${process.env.REACT_APP_BACKEND}/places/update-place/${placeId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

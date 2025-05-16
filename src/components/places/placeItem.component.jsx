@@ -45,7 +45,7 @@ const PlaceItem = (props) => {
     // console.log('place deleted !');
 
 
-    fetch(`http://localhost:5000/api/places/delete-place/${props.id}` , {
+    fetch(`${process.env.REACT_APP_BACKEND}/places/delete-place/${props.id}` , {
       method:"DELETE",
       headers:{
         "Content-Type":"application/json",

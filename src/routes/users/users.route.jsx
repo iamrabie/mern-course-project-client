@@ -9,7 +9,7 @@ const Users = () => {
   const [isLoading , setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/users/")
+    fetch(`${process.env.REACT_APP_BACKEND}/users/`)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data.data);

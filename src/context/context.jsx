@@ -10,7 +10,7 @@ export const AuthContext = createContext({
 export const AuthProvider = ({children}) => {
 
     const [ login , setLogin ] = useState(false);
-    console.log('login CONTEXT :' , login);
+    // console.log('login CONTEXT :' , login);
 
     useEffect(() => {
         const isLoggedIn = localStorage.getItem("login");
